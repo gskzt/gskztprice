@@ -129,6 +129,13 @@
                     <label for="cardDescription">Описание (необязательно)</label>
                     <textarea id="cardDescription" rows="3"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="cardMediaUrl">Видео или фото URL (необязательно)</label>
+                    <input type="url" id="cardMediaUrl" placeholder="https://example.com/video.mp4 или image.jpg">
+                    <small style="display: block; margin-top: var(--space-2); color: var(--text-tertiary); font-size: var(--text-sm);">
+                        Поддерживаются: MP4, WebM, OGG для видео | JPG, PNG, GIF для фото
+                    </small>
+                </div>
                 <input type="hidden" id="cardId">
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">Сохранить</button>

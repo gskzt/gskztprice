@@ -4,11 +4,11 @@ const STORAGE_CREDENTIALS = 'video_service_credentials';
 
 // Default data
 const defaultCards = [
-    { id: 1, title: 'Шашки по городу', price: 4000, description: '' },
-    { id: 2, title: 'Шашки по городу с сергеком', price: 5000, description: '' },
-    { id: 3, title: '1 минутный видео', price: 6000, description: '' },
-    { id: 4, title: '1 минутный видео с полицейскими', price: 7000, description: '' },
-    { id: 5, title: '1 минутный видео полносюжетный (полицейские+сергек)', price: 8000, description: '' }
+    { id: 1, title: 'Шашки по городу', price: 4000, description: '', mediaUrl: '' },
+    { id: 2, title: 'Шашки по городу с сергеком', price: 5000, description: '', mediaUrl: '' },
+    { id: 3, title: '1 минутный видео', price: 6000, description: '', mediaUrl: '' },
+    { id: 4, title: '1 минутный видео с полицейскими', price: 7000, description: '', mediaUrl: '' },
+    { id: 5, title: '1 минутный видео полносюжетный (полицейские+сергек)', price: 8000, description: '', mediaUrl: '' }
 ];
 
 const defaultCredentials = {
@@ -138,7 +138,42 @@ function renderCards() {
             cardElement.classList.add('active');
         }
         
+        // Determine if media is video or image
+        const hasMedia = card.mediaUrl && card.mediaUrl.trim() !== '';
+        const isVideo = hasMedia && /\.(mp4|webm|ogg)$/i.test(card.mediaUrl);
+        const isImage = hasMedia && /\.(jpg|jpeg|png|gif|webp)$/i.test(card.mediaUrl);
+        
+        let mediaHTML = '';
+        if (hasMedia) {
+            if (isVideo) {
+                mediaHTML = `
+                    <div class="carousel-card-media">
+                        <video 
+                            id="video-${card.id}" 
+                            src="${escapeHtml(card.mediaUrl)}" 
+                            muted 
+                            loop
+                            playsinline
+                            ${index === currentIndex ? 'autoplay' : ''}
+                        ></video>
+                        <div class="carousel-card-media-play-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+            } else if (isImage) {
+                mediaHTML = `
+                    <div class="carousel-card-media">
+                        <img src="${escapeHtml(card.mediaUrl)}" alt="${escapeHtml(card.title)}">
+                    </div>
+                `;
+            }
+        }
+        
         cardElement.innerHTML = `
+            ${mediaHTML}
             <h3 class="carousel-card-title">${escapeHtml(card.title)}</h3>
             <div class="carousel-card-price">${formatPrice(card.price)} тг</div>
             ${card.description ? `<p class="carousel-card-description">${escapeHtml(card.description)}</p>` : ''}
@@ -177,8 +212,23 @@ function updateCarousel() {
     cardElements.forEach((card, index) => {
         if (index === currentIndex) {
             card.classList.add('active');
+            
+            // Auto-play video if card has video
+            const video = card.querySelector('video');
+            if (video) {
+                video.play().catch(err => {
+                    console.log('Video autoplay prevented:', err);
+                });
+            }
         } else {
             card.classList.remove('active');
+            
+            // Pause video when card is not active
+            const video = card.querySelector('video');
+            if (video) {
+                video.pause();
+                video.currentTime = 0; // Reset to start
+            }
         }
     });
     
@@ -329,6 +379,7 @@ function initAdminPanel() {
         const title = document.getElementById('cardTitle').value;
         const price = parseInt(document.getElementById('cardPrice').value);
         const description = document.getElementById('cardDescription').value;
+        const mediaUrl = document.getElementById('cardMediaUrl').value.trim();
         
         if (cardId) {
             // Edit existing card
@@ -337,11 +388,12 @@ function initAdminPanel() {
                 cards[index].title = title;
                 cards[index].price = price;
                 cards[index].description = description;
+                cards[index].mediaUrl = mediaUrl;
             }
         } else {
             // Add new card
             const newId = Math.max(...cards.map(c => c.id), 0) + 1;
-            cards.push({ id: newId, title, price, description });
+            cards.push({ id: newId, title, price, description, mediaUrl });
         }
         
         saveCards();
@@ -388,6 +440,7 @@ function editCard(cardId) {
     document.getElementById('cardTitle').value = card.title;
     document.getElementById('cardPrice').value = card.price;
     document.getElementById('cardDescription').value = card.description || '';
+    document.getElementById('cardMediaUrl').value = card.mediaUrl || '';
     
     document.getElementById('cardModal').classList.add('show');
 }

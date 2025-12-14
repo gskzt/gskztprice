@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профессиональные Видео Услуги</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">Профессиональные Видео Услуги</h1>
+            <p class="header-subtitle">Создаем качественный контент для вашего бизнеса</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Carousel Container -->
+        <div class="carousel-container">
+            <button class="carousel-btn carousel-btn-left" id="prevBtn" aria-label="Предыдущая карточка">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+
+            <div class="carousel-wrapper" id="carouselWrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Cards will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <button class="carousel-btn carousel-btn-right" id="nextBtn" aria-label="Следующая карточка">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators" id="indicators"></div>
+    </main>
+
+    <!-- Admin Button -->
+    <button class="admin-btn" id="adminBtn" title="Админ панель">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+    </button>
+
+    <!-- Admin Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            
+            <!-- Login Form -->
+            <div class="admin-login" id="adminLogin">
+                <h2>Вход в админ панель</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsername">Логин</label>
+                        <input type="text" id="loginUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Пароль</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Войти</button>
+                </form>
+            </div>
+
+            <!-- Admin Panel -->
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <div class="admin-header">
+                    <h2>Админ панель</h2>
+                    <div class="admin-actions">
+                        <button class="btn-secondary" id="changeCredentialsBtn">Изменить логин/пароль</button>
+                        <button class="btn-secondary" id="logoutBtn">Выйти</button>
+                    </div>
+                </div>
+
+                <!-- Change Credentials Form -->
+                <div class="change-credentials" id="changeCredentials" style="display: none;">
+                    <h3>Изменить учетные данные</h3>
+                    <form id="credentialsForm">
+                        <div class="form-group">
+                            <label for="newUsername">Новый логин</label>
+                            <input type="text" id="newUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Новый пароль</label>
+                            <input type="password" id="newPassword" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Сохранить</button>
+                        <button type="button" class="btn-secondary" id="cancelCredentialsBtn">Отмена</button>
+                    </form>
+                </div>
+
+                <!-- Cards Management -->
+                <div class="cards-management">
+                    <h3>Управление карточками</h3>
+                    <button class="btn-primary" id="addCardBtn">Добавить новую карточку</button>
+                    
+                    <div class="cards-list" id="cardsList">
+                        <!-- Cards will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Card Modal -->
+    <div class="modal" id="cardModal">
+        <div class="modal-content modal-small">
+            <span class="modal-close" id="closeCardModal">&times;</span>
+            <h2 id="cardModalTitle">Добавить карточку</h2>
+            <form id="cardForm">
+                <div class="form-group">
+                    <label for="cardTitle">Название услуги</label>
+                    <input type="text" id="cardTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardPrice">Цена (тг)</label>
+                    <input type="number" id="cardPrice" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="cardDescription">Описание (необязательно)</label>
+                    <textarea id="cardDescription" rows="3"></textarea>
+                </div>
+                <input type="hidden" id="cardId">
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Сохранить</button>
+                    <button type="button" class="btn-secondary" id="cancelCardBtn">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

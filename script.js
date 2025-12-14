@@ -29,7 +29,52 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
     initAdminPanel();
     initKeyboardNavigation();
+    preventZoom();
 });
+
+// Запрет масштабирования страницы
+function preventZoom() {
+    // Предотвращение двойного тапа для зума
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
+    // Предотвращение жестов масштабирования
+    document.addEventListener('gesturestart', function (e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('gesturechange', function (e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('gestureend', function (e) {
+        e.preventDefault();
+    });
+
+    // Предотвращение колесика мыши с Ctrl для масштабирования
+    document.addEventListener('wheel', function (e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Предотвращение Ctrl + и Ctrl - для масштабирования
+    document.addEventListener('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=' || e.keyCode === 187 || e.keyCode === 189)) {
+            e.preventDefault();
+        }
+        // Предотвращение Ctrl + 0 для сброса масштаба
+        if ((e.ctrlKey || e.metaKey) && (e.key === '0' || e.keyCode === 48)) {
+            e.preventDefault();
+        }
+    });
+}
 
 // Load/Save Functions
 function loadCredentials() {

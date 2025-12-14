@@ -973,38 +973,65 @@ body::after {
         padding: var(--space-6) var(--space-4) var(--space-10);
     }
     
+    /* Мобильные карточки - меньше размер */
     .carousel-card {
-        width: 85vw;
-        max-width: 400px;
-        min-height: 400px;
-        padding: var(--space-8) var(--space-6);
+        width: 75vw;
+        max-width: 320px;
+        min-height: 360px;
+        padding: var(--space-6) var(--space-5);
     }
     
     .carousel-card.active {
-        width: 90vw;
-        max-width: 420px;
-        min-height: 440px;
+        width: 80vw;
+        max-width: 340px;
+        min-height: 380px;
     }
     
     .carousel-card-title {
-        font-size: var(--text-xl);
+        font-size: var(--text-lg);
+        margin-bottom: var(--space-4);
     }
     
     .carousel-card.active .carousel-card-title {
-        font-size: var(--text-2xl);
+        font-size: var(--text-xl);
     }
     
     .carousel-card-price {
-        font-size: var(--text-4xl);
+        font-size: var(--text-3xl);
+        margin-bottom: var(--space-6);
     }
     
     .carousel-card.active .carousel-card-price {
-        font-size: var(--text-5xl);
+        font-size: var(--text-4xl);
     }
     
+    .carousel-card-description {
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-6);
+    }
+    
+    .carousel-card-btn {
+        padding: var(--space-3) var(--space-5);
+        font-size: var(--text-base);
+    }
+    
+    /* Мобильные стрелки - больше размер */
     .carousel-btn {
-        width: 44px;
-        height: 44px;
+        width: 56px;
+        height: 56px;
+    }
+    
+    .carousel-btn svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .carousel-btn-left {
+        left: var(--space-2);
+    }
+    
+    .carousel-btn-right {
+        right: var(--space-2);
     }
     
     .admin-btn {
@@ -1040,36 +1067,57 @@ body::after {
 }
 
 @media (max-width: 480px) {
+    /* Маленькие мобильные - еще меньше карточки */
     .carousel-card {
-        width: 90vw;
-        min-height: 380px;
-        padding: var(--space-6) var(--space-5);
+        width: 70vw;
+        max-width: 280px;
+        min-height: 340px;
+        padding: var(--space-5) var(--space-4);
     }
     
     .carousel-card.active {
-        width: 92vw;
-        min-height: 400px;
+        width: 75vw;
+        max-width: 300px;
+        min-height: 360px;
     }
     
     .carousel-card-title {
-        font-size: var(--text-lg);
+        font-size: var(--text-base);
+        margin-bottom: var(--space-3);
     }
     
     .carousel-card.active .carousel-card-title {
-        font-size: var(--text-xl);
+        font-size: var(--text-lg);
     }
     
     .carousel-card-price {
-        font-size: var(--text-3xl);
+        font-size: var(--text-2xl);
+        margin-bottom: var(--space-5);
     }
     
     .carousel-card.active .carousel-card-price {
-        font-size: var(--text-4xl);
+        font-size: var(--text-3xl);
     }
     
+    .carousel-card-description {
+        font-size: var(--text-xs);
+        margin-bottom: var(--space-5);
+    }
+    
+    .carousel-card-btn {
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--text-sm);
+    }
+    
+    /* Маленькие мобильные - стрелки остаются большими */
     .carousel-btn {
-        width: 40px;
-        height: 40px;
+        width: 52px;
+        height: 52px;
+    }
+    
+    .carousel-btn svg {
+        width: 26px;
+        height: 26px;
     }
 }
 
